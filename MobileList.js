@@ -1,12 +1,13 @@
 import React, { useState, useEffect } from 'react';
 import { View, Text, FlatList, StyleSheet } from 'react-native';
 import axios from 'axios';
+import Item from './Item';
 
 export default function MobileList() {
   const [gadgets, setGadgets] = useState([]);
 
   useEffect(() => {
-    axios.get('https://my-json-server.typicode.com/Rohitap132/react-native-cli/db')
+    axios.get('https://my-json-server.typicode.com/your-username/your-repo-name/gadgets')
       .then(response => {
         setGadgets(response.data);
       })
@@ -16,15 +17,11 @@ export default function MobileList() {
   }, []);
 
   return (
-    <View>
-      <Text style={styles.title}>Mobile Gadgets</Text>
+    <View style={styles.container}>
       <FlatList
         data={gadgets}
         renderItem={({ item }) => (
-          <View style={styles.item}>
-            <Text>{item.name}</Text>
-            <Text>{item.price}</Text>
-          </View>
+          <Item name={item.name} price={item.price} />
         )}
         keyExtractor={item => item.id.toString()}
       />
@@ -33,14 +30,8 @@ export default function MobileList() {
 }
 
 const styles = StyleSheet.create({
-  title: {
-    fontSize: 18,
-    fontWeight: 'bold',
-    margin: 10,
-  },
-  item: {
-    padding: 10,
-    borderBottomWidth: 1,
-    borderBottomColor: '#ccc',
+  container: {
+    flex: 1,
+    marginTop: 20,
   },
 });
